@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Parcel App Calculator
+//  Parcel App Calculator V2
 //
 //  Created by NAFIU AMOSA on 04/10/2025.
 //
@@ -61,6 +61,13 @@ struct ContentView: View {
                     .onChange(of: weight){
                         oldValue, newValue in
                         funfilterNumbericInput(for: $weight, oldValue: oldValue, newValue: newValue)
+                        if let weightValue = Double(weight), weightValue > 30.0{
+                            resultMessage = "Max weight: 30Kg"
+                            isError = true;
+                        }else{
+                            resultMessage = "Package cost = 0"
+                            isError = false
+                        }
                     }
             }.padding(.vertical, 20)
             
@@ -79,6 +86,13 @@ struct ContentView: View {
                     .onChange(of: weight){
                         oldValue, newValue in
                         funfilterNumbericInput(for: $weight, oldValue: oldValue, newValue: newValue)
+                        if let lengthValue = Double(length), lengthValue > 150.0{
+                            resultMessage = "Max Length Dimension: 150cm"
+                            isError = true;
+                        }else{
+                            resultMessage = "Package cost = 0"
+                            isError = false
+                        }
                     }
             }.padding(.vertical, 20)
             
