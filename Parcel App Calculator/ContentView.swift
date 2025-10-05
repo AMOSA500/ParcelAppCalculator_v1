@@ -100,15 +100,8 @@ struct ContentView: View {
                     .onChange(of: length){
                         oldValue, newValue in
                         funfilterNumbericInput(for: $length, oldValue: oldValue, newValue: newValue)
-                        if useAdvancedPricing{
-                            if let lengthValue = Double(length), lengthValue > 150.0{
-                                resultMessage = "Max Length Dimension: 150cm"
-                                isError = true;
-                            }else{
-                                resultMessage = "Package cost = 0"
-                                isError = false
-                            }
-                        }
+                        measurementErrorMessage(measureValue: length, measureTool: "length")
+
                     }
             }.padding(.vertical, 20)
             
@@ -127,15 +120,7 @@ struct ContentView: View {
                     .onChange(of: width){
                         oldValue, newValue in
                         funfilterNumbericInput(for: $width, oldValue: oldValue, newValue: newValue)
-                        if useAdvancedPricing{
-                            if let widthValue = Double(width), widthValue > 150.0{
-                                resultMessage = "Max width dimension: 150cm"
-                                isError = true;
-                            }else{
-                                resultMessage = "Package cost = 0"
-                                isError = false
-                            }
-                        }
+                        measurementErrorMessage(measureValue: width, measureTool: "width")
                     }
             }.padding(.vertical, 20)
             
@@ -154,15 +139,7 @@ struct ContentView: View {
                     .onChange(of: height){
                         oldValue, newValue in
                         funfilterNumbericInput(for: $height, oldValue: oldValue, newValue: newValue)
-                        if useAdvancedPricing{
-                            if let heightValue = Double(height), heightValue > 150.0{
-                                resultMessage = "Max height dimension: 150cm"
-                                isError = true;
-                            }else{
-                                resultMessage = "Package cost = 0"
-                                isError = false
-                            }
-                        }
+                        measurementErrorMessage(measureValue: height, measureTool: "height")
                     }
             }.padding(.vertical, 20)
             
@@ -214,6 +191,7 @@ struct ContentView: View {
         }
     }
     
+    // Function to manually control numberic digits only
     private func funfilterNumbericInput(for binding: Binding<String>, oldValue:String, newValue:String){
         var filtered = newValue.filter{"0123456789.".contains($0)}
         if filtered.filter({$0 == "."}).count > 1 {
@@ -224,6 +202,8 @@ struct ContentView: View {
         }
         
     }
+    
+    // Function for Advance Pricing
     private func funcUseAdvancedPricing(){
         guard let weightValue = Double(weight),
               let lengthValue = Double(length),
@@ -249,6 +229,19 @@ struct ContentView: View {
         totalCost = max(totalCost, 5.00)
         resultMessage = String(format: "Package cost = £%.2f", totalCost)
         isError = false
+    }
+    
+    // Function for over scaling measurement error
+    private func measurementErrorMessage(measureValue: String, measureTool: String){
+        if useAdvancedPricing{
+            if let lengthValue = Double(length), lengthValue > 150.0{
+                resultMessage = "Max Length Dimension: 150cm"
+                isError = true;
+            }else{
+                resultMessage = "Package cost = 0"
+                isError = false
+            }
+        }
     }
     
     
