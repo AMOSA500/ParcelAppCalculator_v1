@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var height = ""
     @State private var resultMessage = "Package cost = 0"
     @State private var isError = false
+    @State private var useAdvancedPricing = false
     
     private var displayResult: some View{
         Text(resultMessage)
@@ -46,6 +47,15 @@ struct ContentView: View {
             .background(.red)
             
         VStack {
+            // Toggle Button
+            Toggle(isOn: $useAdvancedPricing){
+                Text("Use Advanced Pricing")
+            }.toggleStyle(SwitchToggleStyle(tint: .green))
+                .onTapGesture {
+                resultMessage = "Package cost = 0"
+            }
+            
+            
             // Stact for weight
             HStack(alignment: .center, spacing: 20){
                 Label("Weight (Kg): ", systemImage: "scale.3d")
@@ -61,13 +71,17 @@ struct ContentView: View {
                     .onChange(of: weight){
                         oldValue, newValue in
                         funfilterNumbericInput(for: $weight, oldValue: oldValue, newValue: newValue)
-                        if let weightValue = Double(weight), weightValue > 30.0{
-                            resultMessage = "Max weight: 30Kg"
-                            isError = true;
-                        }else{
-                            resultMessage = "Package cost = 0"
-                            isError = false
+                        if useAdvancedPricing{
+                            if let weightValue = Double(weight),
+                               weightValue > 30.0{
+                                resultMessage = "Max weight: 30Kg"
+                                isError = true;
+                            }else{
+                                resultMessage = "Package cost = 0"
+                                isError = false
+                            }
                         }
+                        
                     }
             }.padding(.vertical, 20)
             
@@ -83,15 +97,17 @@ struct ContentView: View {
                     .cornerRadius(8)
                     .background(Color.gray.opacity(0.2))
                     .keyboardType(.decimalPad)
-                    .onChange(of: weight){
+                    .onChange(of: length){
                         oldValue, newValue in
-                        funfilterNumbericInput(for: $weight, oldValue: oldValue, newValue: newValue)
-                        if let lengthValue = Double(length), lengthValue > 150.0{
-                            resultMessage = "Max Length Dimension: 150cm"
-                            isError = true;
-                        }else{
-                            resultMessage = "Package cost = 0"
-                            isError = false
+                        funfilterNumbericInput(for: $length, oldValue: oldValue, newValue: newValue)
+                        if useAdvancedPricing{
+                            if let lengthValue = Double(length), lengthValue > 150.0{
+                                resultMessage = "Max Length Dimension: 150cm"
+                                isError = true;
+                            }else{
+                                resultMessage = "Package cost = 0"
+                                isError = false
+                            }
                         }
                     }
             }.padding(.vertical, 20)
@@ -108,9 +124,18 @@ struct ContentView: View {
                     .cornerRadius(8)
                     .background(Color.gray.opacity(0.2))
                     .keyboardType(.decimalPad)
-                    .onChange(of: weight){
+                    .onChange(of: width){
                         oldValue, newValue in
-                        funfilterNumbericInput(for: $weight, oldValue: oldValue, newValue: newValue)
+                        funfilterNumbericInput(for: $width, oldValue: oldValue, newValue: newValue)
+                        if useAdvancedPricing{
+                            if let widthValue = Double(width), widthValue > 150.0{
+                                resultMessage = "Max width dimension: 150cm"
+                                isError = true;
+                            }else{
+                                resultMessage = "Package cost = 0"
+                                isError = false
+                            }
+                        }
                     }
             }.padding(.vertical, 20)
             
@@ -126,9 +151,18 @@ struct ContentView: View {
                     .cornerRadius(8)
                     .background(Color.gray.opacity(0.2))
                     .keyboardType(.decimalPad)
-                    .onChange(of: weight){
+                    .onChange(of: height){
                         oldValue, newValue in
-                        funfilterNumbericInput(for: $weight, oldValue: oldValue, newValue: newValue)
+                        funfilterNumbericInput(for: $height, oldValue: oldValue, newValue: newValue)
+                        if useAdvancedPricing{
+                            if let heightValue = Double(height), heightValue > 150.0{
+                                resultMessage = "Max height dimension: 150cm"
+                                isError = true;
+                            }else{
+                                resultMessage = "Package cost = 0"
+                                isError = false
+                            }
+                        }
                     }
             }.padding(.vertical, 20)
             
@@ -144,7 +178,7 @@ struct ContentView: View {
                 print("Height \(height)")
                 
                 // Function call
-                postageCalculator()
+                useAdvancedPricing ? funcUseAdvancedPricing() : postageCalculator()
                 
             }.frame(maxWidth: .infinity, alignment: .center)
                 .padding(.vertical,16)
@@ -189,6 +223,32 @@ struct ContentView: View {
             binding.wrappedValue = filtered
         }
         
+    }
+    private func funcUseAdvancedPricing(){
+        guard let weightValue = Double(weight),
+              let lengthValue = Double(length),
+              let widthValue = Double(width),
+              let heightValue = Double(height),
+              (weightValue > 0 && weightValue <= 30), (lengthValue > 0 && lengthValue <= 150), (widthValue > 0 && widthValue <= 150), (heightValue > 0 && heightValue <= 150) else{
+                resultMessage = "Error! Empty field or wrong value entered"
+                isError = true
+                return
+        }
+        var totalCost = 2.50 // Base cost
+        let volume = lengthValue * widthValue * heightValue
+        let dimensionalWeight = volume / 5000
+        let chargeableWeight = dimensionalWeight > weightValue ? dimensionalWeight : weightValue
+        totalCost += (chargeableWeight * 1.50) + (dimensionalWeight * 0.75) // base cost
+        var surchargeFactor: Double = 1.0
+        if weightValue > 20.0{
+            surchargeFactor = 1.5
+        }else if weightValue > 10.0 && weightValue < 20.0{
+            surchargeFactor = 1.25
+        }
+        totalCost += surchargeFactor
+        totalCost = max(totalCost, 5.00)
+        resultMessage = String(format: "Package cost = £%.2f", totalCost)
+        isError = false
     }
     
     
