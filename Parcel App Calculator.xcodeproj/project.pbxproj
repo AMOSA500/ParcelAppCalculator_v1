@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3D8D6CE02E9711F000A8B477 /* Parcel_App_CalculatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8D6CDD2E9711F000A8B477 /* Parcel_App_CalculatorApp.swift */; };
+		3D8D6CE12E9711F000A8B477 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D8D6CDA2E9711F000A8B477 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3D7C90342E91C0ED00552B20 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,14 +32,12 @@
 		3D7C90252E91C0E800552B20 /* Parcel App Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Parcel App Calculator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D7C90332E91C0ED00552B20 /* Parcel App CalculatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Parcel App CalculatorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D7C903D2E91C0ED00552B20 /* Parcel App CalculatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Parcel App CalculatorUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D8D6CDA2E9711F000A8B477 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3D8D6CDC2E9711F000A8B477 /* Parcel_App_Calculator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Parcel_App_Calculator.entitlements; sourceTree = "<group>"; };
+		3D8D6CDD2E9711F000A8B477 /* Parcel_App_CalculatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parcel_App_CalculatorApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		3D7C90272E91C0E800552B20 /* Parcel App Calculator */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Parcel App Calculator";
-			sourceTree = "<group>";
-		};
 		3D7C90362E91C0ED00552B20 /* Parcel App CalculatorTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Parcel App CalculatorTests";
@@ -43,6 +46,21 @@
 		3D7C90402E91C0ED00552B20 /* Parcel App CalculatorUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Parcel App CalculatorUITests";
+			sourceTree = "<group>";
+		};
+		3D8D6CE22E9711F700A8B477 /* View */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = View;
+			sourceTree = "<group>";
+		};
+		3D8D6CE32E9711FE00A8B477 /* Model */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3D8D6CE42E97120400A8B477 /* ViewModel */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -75,7 +93,7 @@
 		3D7C901C2E91C0E800552B20 = {
 			isa = PBXGroup;
 			children = (
-				3D7C90272E91C0E800552B20 /* Parcel App Calculator */,
+				3D8D6CDE2E9711F000A8B477 /* Parcel App Calculator */,
 				3D7C90362E91C0ED00552B20 /* Parcel App CalculatorTests */,
 				3D7C90402E91C0ED00552B20 /* Parcel App CalculatorUITests */,
 				3D7C90262E91C0E800552B20 /* Products */,
@@ -90,6 +108,19 @@
 				3D7C903D2E91C0ED00552B20 /* Parcel App CalculatorUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3D8D6CDE2E9711F000A8B477 /* Parcel App Calculator */ = {
+			isa = PBXGroup;
+			children = (
+				3D8D6CE42E97120400A8B477 /* ViewModel */,
+				3D8D6CE32E9711FE00A8B477 /* Model */,
+				3D8D6CE22E9711F700A8B477 /* View */,
+				3D8D6CDA2E9711F000A8B477 /* Assets.xcassets */,
+				3D8D6CDC2E9711F000A8B477 /* Parcel_App_Calculator.entitlements */,
+				3D8D6CDD2E9711F000A8B477 /* Parcel_App_CalculatorApp.swift */,
+			);
+			path = "Parcel App Calculator";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -108,7 +139,9 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				3D7C90272E91C0E800552B20 /* Parcel App Calculator */,
+				3D8D6CE22E9711F700A8B477 /* View */,
+				3D8D6CE32E9711FE00A8B477 /* Model */,
+				3D8D6CE42E97120400A8B477 /* ViewModel */,
 			);
 			name = "Parcel App Calculator";
 			packageProductDependencies = (
@@ -212,6 +245,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D8D6CE12E9711F000A8B477 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D8D6CE02E9711F000A8B477 /* Parcel_App_CalculatorApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

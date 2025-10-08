@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct Parcel_App_CalculatorApp: App {
@@ -13,5 +14,6 @@ struct Parcel_App_CalculatorApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: ParcelDataModel.self)
     }
 }

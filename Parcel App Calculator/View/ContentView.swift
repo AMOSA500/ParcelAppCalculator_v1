@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var resultMessage = "Package cost = 0"
     @State private var isError = false
     @State private var useAdvancedPricing = false
+    @State private var postDate: Date = Date()
     
     private var displayResult: some View{
         Text(resultMessage)
@@ -29,31 +30,48 @@ struct ContentView: View {
     
     
     var body: some View {
-        // App Text
-        HStack(alignment: .center){
-            Image(systemName: "dollarsign.arrow.circlepath")
-                .bold()
-                .font(.title)
-                .imageScale(.large)
-                .foregroundStyle(.white)
-                .frame(alignment:.center)
-            Text("Parcel Cost Calculator 📦")
-                .font(.system(size: 24))
-                .fontWeight(.bold)
-                .foregroundColor(.white)
-                .padding()
-        }
-            .frame(maxWidth: .infinity)
-            .background(.red)
+        
+        ZStack(alignment: .top){
             
+            // Apply fill background color to the top
+            GeometryReader{
+                geometry in
+                Color.red
+                    .frame(height: 140)
+                    .ignoresSafeArea(.all, edges: .top)
+            }
+            
+                
+                
         VStack {
+            // App Text
+            HStack(alignment: .center){
+                Image(systemName: "dollarsign.arrow.circlepath")
+                    .bold()
+                    .font(.title)
+                    .imageScale(.large)
+                    .foregroundStyle(.black)
+                    .frame(alignment:.center)
+                Text("Parcel Cost Calculator 📦")
+                    .font(.system(size: 24))
+                    .fontWeight(.bold)
+                    .foregroundColor(.black)
+                    .padding()
+            }
+            
+            
             // Toggle Button
             Toggle(isOn: $useAdvancedPricing){
                 Text("Use Advanced Pricing")
             }.toggleStyle(SwitchToggleStyle(tint: .green))
                 .onTapGesture {
-                resultMessage = "Package cost = 0"
-            }
+                    resultMessage = "Package cost = 0"
+                }
+            
+            // DatePicker
+            DatePicker("Select date", selection: $postDate, in: ...Date(),
+                       displayedComponents: .date
+            )
             
             
             // Stact for weight
@@ -101,7 +119,7 @@ struct ContentView: View {
                         oldValue, newValue in
                         funfilterNumbericInput(for: $length, oldValue: oldValue, newValue: newValue)
                         measurementErrorMessage(measureValue: length, measureTool: "length")
-
+                        
                     }
             }.padding(.vertical, 20)
             
@@ -167,6 +185,9 @@ struct ContentView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        
+    }
+        
         
     }
     
