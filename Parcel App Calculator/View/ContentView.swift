@@ -10,14 +10,17 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @State private var weight = ""
-    @State private var length = ""
-    @State private var width = ""
-    @State private var height = ""
-    @State private var resultMessage = "Package cost = 0"
+    @AppStorage("weight") private var weight = ""
+    @AppStorage("length") private var length = ""
+    @AppStorage("width") private var width = ""
+    @AppStorage("height") private var height = ""
+    @AppStorage("resultMessage") private var resultMessage = "Package cost = 0"
+    @AppStorage("postDate") private var postDate: Date = Date()
+    @AppStorage("gVolume") private var gVolume = ""
+    @AppStorage("gCost") private var gCost = ""
     @State private var isError = false
     @State private var useAdvancedPricing = false
-    @State private var postDate: Date = Date()
+    
     
     private var displayResult: some View{
         Text(resultMessage)
@@ -175,7 +178,8 @@ struct ContentView: View {
                 print("Height \(height)")
                 
                 // Function call
-                useAdvancedPricing ? funcUseAdvancedPricing() : postageCalculator()
+                calculatePostage(useAdvancedPricing: useAdvancedPricing)
+                
                 
             }.frame(maxWidth: .infinity, alignment: .center)
                 .padding(.vertical,16)
@@ -193,27 +197,66 @@ struct ContentView: View {
         
     }
     
-    // Function to Calculator
-    func postageCalculator() {
-        if let weightValue = Double(weight),
-           let lengthValue = Double(length),
-           let widthValue = Double(width),
-           let heightValue = Double(height),
-           weightValue > 0, lengthValue > 0, widthValue > 0, heightValue > 0{
-            let volume = heightValue * lengthValue * widthValue
-            var totalCost = 3.00 // Base cost
-            totalCost += weightValue * 0.50 // Weight charge
-            totalCost += (volume / 1000) * 0.10 // Volume charge
-            totalCost = max(totalCost, 4.00)
-            resultMessage = String(format: "Package cost = £%.2f", totalCost)
-            isError = false
-            
-        }else{
+    // Function to Calculator Postage
+    func calculatePostage(useAdvancedPricing: Bool) {
+        // 1. Input Validation: Attempt to safely get Double values for calculations.
+        // The same validation is needed for both pricing methods.
+        guard let weightValue = Double(weight),
+              let lengthValue = Double(length),
+              let widthValue = Double(width),
+              let heightValue = Double(height),
+              weightValue > 0, lengthValue > 0, widthValue > 0, heightValue > 0 else {
             resultMessage = "Error! Empty field or wrong entry"
             isError = true
+            return
         }
+
+        var totalCost: Double
+        let volume = heightValue * lengthValue * widthValue
+
+        // 2. Logic Separation: Use the boolean flag to branch the pricing logic.
+        if useAdvancedPricing {
+            // Advanced Pricing Logic
+            guard weightValue <= 30, lengthValue <= 150, widthValue <= 150, heightValue <= 150 else {
+                resultMessage = "Error! Wrong value entered for advanced pricing."
+                isError = true
+                return
+            }
+            
+            totalCost = 2.50
+            let dimensionalWeight = volume / 5000
+            let chargeableWeight = max(dimensionalWeight, weightValue)
+            totalCost += (chargeableWeight * 1.50) + (dimensionalWeight * 0.75)
+            
+            var surchargeFactor: Double = 1.0
+            if weightValue > 20.0 {
+                surchargeFactor = 1.5
+            } else if weightValue > 10.0 { // Corrected: original had a typo (&& weightValue < 20.0)
+                surchargeFactor = 1.25
+            }
+            totalCost += surchargeFactor
+            totalCost = max(totalCost, 5.00)
+        } else {
+            // Standard Pricing Logic
+            totalCost = 3.00
+            totalCost += weightValue * 0.50
+            totalCost += (volume / 1000) * 0.10
+            totalCost = max(totalCost, 4.00)
+            
+           
+        }
+
+        // 4. Common Output: Update the UI once, after all calculations are complete.
+        // 3. Database operation: Only happens with the standard calculator.
+        let newRecord = ParcelDataModel(weight: String(weight), volume: String(volume), cost: String(totalCost), postDate: postDate)
+        modelContext.insert(newRecord)
+        gCost = String(totalCost)
+        gVolume = String(volume)
+        resultMessage = String(format: "Package cost = £%.2f", totalCost)
+        isError = false
     }
-    
+
+   
     // Function to manually control numberic digits only
     private func funfilterNumbericInput(for binding: Binding<String>, oldValue:String, newValue:String){
         var filtered = newValue.filter{"0123456789.".contains($0)}
@@ -226,39 +269,13 @@ struct ContentView: View {
         
     }
     
-    // Function for Advance Pricing
-    private func funcUseAdvancedPricing(){
-        guard let weightValue = Double(weight),
-              let lengthValue = Double(length),
-              let widthValue = Double(width),
-              let heightValue = Double(height),
-              (weightValue > 0 && weightValue <= 30), (lengthValue > 0 && lengthValue <= 150), (widthValue > 0 && widthValue <= 150), (heightValue > 0 && heightValue <= 150) else{
-                resultMessage = "Error! Empty field or wrong value entered"
-                isError = true
-                return
-        }
-        var totalCost = 2.50 // Base cost
-        let volume = lengthValue * widthValue * heightValue
-        let dimensionalWeight = volume / 5000
-        let chargeableWeight = dimensionalWeight > weightValue ? dimensionalWeight : weightValue
-        totalCost += (chargeableWeight * 1.50) + (dimensionalWeight * 0.75) // base cost
-        var surchargeFactor: Double = 1.0
-        if weightValue > 20.0{
-            surchargeFactor = 1.5
-        }else if weightValue > 10.0 && weightValue < 20.0{
-            surchargeFactor = 1.25
-        }
-        totalCost += surchargeFactor
-        totalCost = max(totalCost, 5.00)
-        resultMessage = String(format: "Package cost = £%.2f", totalCost)
-        isError = false
-    }
+   
     
     // Function for over scaling measurement error
     private func measurementErrorMessage(measureValue: String, measureTool: String){
         if useAdvancedPricing{
-            if let lengthValue = Double(length), lengthValue > 150.0{
-                resultMessage = "Max Length Dimension: 150cm"
+            if let lengthValue = Double(measureValue), lengthValue > 150.0{
+                resultMessage = "Max \(measureTool) Dimension: 150cm"
                 isError = true;
             }else{
                 resultMessage = "Package cost = 0"
