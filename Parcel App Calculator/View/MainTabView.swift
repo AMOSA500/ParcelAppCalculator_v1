@@ -13,7 +13,8 @@ struct MainTabView: View {
             ContentView()
                 .tabItem{
                     Label("Calculator", systemImage: "function")
-                }
+                }.toolbarBackground(.visible, for: .tabBar)
+                .toolbarBackground(Color.gray.opacity(0), for: .tabBar)
             HistoryView()
                 .tabItem{
                     Label("History", systemImage: "clock")

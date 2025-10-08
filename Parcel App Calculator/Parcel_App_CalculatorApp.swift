@@ -12,7 +12,7 @@ import SwiftData
 struct Parcel_App_CalculatorApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView()
         }
         .modelContainer(for: ParcelDataModel.self)
     }

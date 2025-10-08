@@ -7,7 +7,9 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
     @State private var weight = ""
     @State private var length = ""
     @State private var width = ""
@@ -52,10 +54,10 @@ struct ContentView: View {
                     .imageScale(.large)
                     .foregroundStyle(.black)
                     .frame(alignment:.center)
-                Text("Parcel Cost Calculator 📦")
+                Text("📦 Parcel Cost Calculator")
                     .font(.system(size: 24))
                     .fontWeight(.bold)
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                     .padding()
             }
             
