@@ -113,6 +113,8 @@ struct ContentView: View {
                 Label("Length (cm): ", systemImage: "ruler")
                     .labelStyle(.titleOnly)
                     .frame(width: 70, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
+
                 TextField("0", text: $length)
                     .bold()
                     .font(.largeTitle)
@@ -133,6 +135,8 @@ struct ContentView: View {
                 Label("Width (cm): ", systemImage: "scalemass")
                     .labelStyle(.titleOnly)
                     .frame(width: 70, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
+
                 TextField("0", text: $width)
                     .bold()
                     .font(.largeTitle)
@@ -152,6 +156,8 @@ struct ContentView: View {
                 Label("Height (cm): ", systemImage: "ruler")
                     .labelStyle(.titleOnly)
                     .frame(width: 70, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
+
                 TextField("0", text: $height)
                     .bold()
                     .font(.largeTitle)
