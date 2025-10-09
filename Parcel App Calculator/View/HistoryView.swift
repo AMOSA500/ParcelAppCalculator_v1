@@ -23,10 +23,13 @@ struct HistoryView: View {
                         Text(parcel.postDate, style: .date)
                             .font(.headline)
                             .padding(.bottom, 5)
-                        Image(systemName: "scalemass")
-                        Text("\(parcel.weight) kg")
-                        Image(systemName: "box")
-                        Text("\(parcel.volume) cm³")
+                        HStack{
+                            Image(systemName: "scalemass")
+                            Text("\(parcel.weight) kg")
+                            Image(systemName: "box")
+                            Text("\(parcel.volume) cm³")
+                        }
+                        
                     }
                     
                     Spacer()

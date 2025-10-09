@@ -6,19 +6,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MainTabView: View {
     var body: some View {
         TabView{
-            ContentView()
-                .tabItem{
-                    Label("Calculator", systemImage: "function")
-                }.toolbarBackground(.visible, for: .tabBar)
-                .toolbarBackground(Color.gray.opacity(0), for: .tabBar)
-            HistoryView()
-                .tabItem{
-                    Label("History", systemImage: "clock")
-                }
+            Group{
+                ContentView()
+                    .tabItem{
+                        Label("Calculator", systemImage: "function")
+                    }
+                HistoryView()
+                    .tabItem{
+                        Label("History", systemImage: "clock")
+                    }
+            }
         }
     }
 }
