@@ -14,12 +14,11 @@ struct ContentView: View {
     @AppStorage("length") private var length = ""
     @AppStorage("width") private var width = ""
     @AppStorage("height") private var height = ""
-    @AppStorage("resultMessage") private var resultMessage = "Package cost = 0"
+    @AppStorage("resultMessage") private var resultMessage = "Package cost = £0"
     @AppStorage("postDate") private var postDate: Date = Date()
-    @AppStorage("gVolume") private var gVolume = ""
-    @AppStorage("gCost") private var gCost = ""
     @State private var isError = false
     @State private var useAdvancedPricing = false
+    
     
     
     private var displayResult: some View{
@@ -70,7 +69,7 @@ struct ContentView: View {
                 Text("Use Advanced Pricing")
             }.toggleStyle(SwitchToggleStyle(tint: .green))
                 .onTapGesture {
-                    resultMessage = "Package cost = 0"
+                    resultMessage = "Package cost = £0"
                 }
             
             // DatePicker
@@ -100,7 +99,7 @@ struct ContentView: View {
                                 resultMessage = "Max weight: 30Kg"
                                 isError = true;
                             }else{
-                                resultMessage = "Package cost = 0"
+                                resultMessage = "Package cost = £0"
                                 isError = false
                             }
                         }
@@ -188,6 +187,14 @@ struct ContentView: View {
                 .background(isDisabled ? .gray.opacity(0.3) : .black)
                 .cornerRadius(10)
                 .disabled(isDisabled)
+            Button("Clear"){
+                weight = ""
+                height = ""
+                length = ""
+                width = ""
+                resultMessage = "Package cost = £0"
+
+            }
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -231,7 +238,7 @@ struct ContentView: View {
             var surchargeFactor: Double = 1.0
             if weightValue > 20.0 {
                 surchargeFactor = 1.5
-            } else if weightValue > 10.0 { // Corrected: original had a typo (&& weightValue < 20.0)
+            } else if weightValue > 10.0 {
                 surchargeFactor = 1.25
             }
             totalCost += surchargeFactor
@@ -246,12 +253,9 @@ struct ContentView: View {
            
         }
 
-        // 4. Common Output: Update the UI once, after all calculations are complete.
-        // 3. Database operation: Only happens with the standard calculator.
-        let newRecord = ParcelDataModel(weight: String(weight), volume: String(volume), cost: String(totalCost), postDate: postDate)
+       
+        let newRecord = ParcelDataModel(weight: String(weight), volume: String(volume), cost: String(format: "%.2f", totalCost), postDate: postDate)
         modelContext.insert(newRecord)
-        gCost = String(totalCost)
-        gVolume = String(volume)
         resultMessage = String(format: "Package cost = £%.2f", totalCost)
         isError = false
     }
@@ -278,7 +282,7 @@ struct ContentView: View {
                 resultMessage = "Max \(measureTool) Dimension: 150cm"
                 isError = true;
             }else{
-                resultMessage = "Package cost = 0"
+                resultMessage = "Package cost = £0"
                 isError = false
             }
         }
