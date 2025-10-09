@@ -18,29 +18,36 @@ struct HistoryView: View {
                 ForEach(parcels) {
                     parcel in
                     HStack(alignment: .center){
-                        Image(systemName: "cube.box")
-                            .foregroundColor(.blue)
-                            .font(.title)
-                        Spacer()
+                        ZStack(alignment: .center){
+                            Image(systemName: "cube.box")
+                                .foregroundColor(.blue)
+                            Spacer()
+                        }
+                       
+                       
                         VStack(alignment: .leading){
-                            Text(parcel.postDate, style: .date)
-                                .font(.headline)
-                                .padding(.bottom, 5)
-                            HStack{
-                                Image(systemName: "scalemass")
-                                Text("\(parcel.weight) kg")
-                                Image(systemName: "box")
-                                Text("\(parcel.volume) cm³")
+                            HStack(alignment: .center, spacing: 2){
+                                Image(systemName: "ruler").foregroundColor(Color.blue)
+                                Text(parcel.postDate, style: .date)
+                            }
+                            
+                            HStack(alignment: .center, spacing: 2){
+                                Image(systemName: "scalemass").foregroundColor(Color.yellow)
+                                Text("\(parcel.weight) kg").fontWeight(.light)
+                                Spacer()
+                                Image(systemName: "cube.box").foregroundColor(Color.green)
+                                Text("\(parcel.volume) cm³").font(.footnote)
+                                Spacer()
                             }
                             
                         }
                         
-                        Spacer()
-                        Text("$ \(parcel.cost)").font(.title2).fontWeight(.bold).foregroundColor(.blue)
-                    }
+                        
+                        Text("£\(parcel.cost)").fontWeight(.bold).foregroundColor(.blue)
+                    }.frame(maxWidth: .infinity)
                     
                 }.onDelete(perform: funcDeleteParcel)
-            }.navigationTitle("Calculation History")
+            }.navigationTitle("Parcel History")
              .navigationBarTitleDisplayMode(.inline)
                 
         }
