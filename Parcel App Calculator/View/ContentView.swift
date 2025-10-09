@@ -218,7 +218,7 @@ struct ContentView: View {
         if useAdvancedPricing {
             // Advanced Pricing Logic
             guard weightValue <= 30, lengthValue <= 150, widthValue <= 150, heightValue <= 150 else {
-                resultMessage = "Error! Wrong value entered for advanced pricing."
+                resultMessage = "Error! Over weight value entered."
                 isError = true
                 return
             }

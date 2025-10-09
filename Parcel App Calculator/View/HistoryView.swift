@@ -14,10 +14,25 @@ struct HistoryView: View {
     var body: some View {
         NavigationStack{
             List(parcels) {parcel in
-                Text(parcel.postDate, format: Date.FormatStyle().day().month().year())
-                Text(parcel.weight)
-                Text(parcel.volume)
-                Text(parcel.cost)
+                HStack(alignment: .center){
+                    Image(systemName: "cube.box")
+                        .foregroundColor(.blue)
+                        .font(.title)
+                    Spacer()
+                    VStack(alignment: .leading){
+                        Text(parcel.postDate, style: .date)
+                            .font(.headline)
+                            .padding(.bottom, 5)
+                        Image(systemName: "scalemass")
+                        Text("\(parcel.weight) kg")
+                        Image(systemName: "box")
+                        Text("\(parcel.volume) cm³")
+                    }
+                    
+                    Spacer()
+                    Text("$ \(parcel.cost)").font(.title2).fontWeight(.bold).foregroundColor(.blue)
+                }
+                
             }
         }.padding(.vertical, 5)
             .navigationTitle("Calculation History")
