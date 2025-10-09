@@ -83,6 +83,7 @@ struct ContentView: View {
                 Label("Weight (Kg): ", systemImage: "scale.3d")
                     .labelStyle(.titleOnly)
                     .frame(width: 70, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
                 TextField("0", text: $weight)
                     .bold()
                     .font(.largeTitle)
