@@ -93,7 +93,7 @@ struct ContentView: View {
                     .keyboardType(.decimalPad)
                     .onChange(of: weight){
                         oldValue, newValue in
-                        funfilterNumbericInput(for: $weight, oldValue: oldValue, newValue: newValue)
+                        funcfilterNumbericInput(for: $weight, oldValue: oldValue, newValue: newValue)
                         if useAdvancedPricing{
                             if let weightValue = Double(weight),
                                weightValue > 30.0{
@@ -124,7 +124,7 @@ struct ContentView: View {
                     .keyboardType(.decimalPad)
                     .onChange(of: length){
                         oldValue, newValue in
-                        funfilterNumbericInput(for: $length, oldValue: oldValue, newValue: newValue)
+                        funcfilterNumbericInput(for: $length, oldValue: oldValue, newValue: newValue)
                         measurementErrorMessage(measureValue: length, measureTool: "length")
                         
                     }
@@ -146,7 +146,7 @@ struct ContentView: View {
                     .keyboardType(.decimalPad)
                     .onChange(of: width){
                         oldValue, newValue in
-                        funfilterNumbericInput(for: $width, oldValue: oldValue, newValue: newValue)
+                        funcfilterNumbericInput(for: $width, oldValue: oldValue, newValue: newValue)
                         measurementErrorMessage(measureValue: width, measureTool: "width")
                     }
             }.padding(.vertical, 20)
@@ -167,12 +167,12 @@ struct ContentView: View {
                     .keyboardType(.decimalPad)
                     .onChange(of: height){
                         oldValue, newValue in
-                        funfilterNumbericInput(for: $height, oldValue: oldValue, newValue: newValue)
+                        funcfilterNumbericInput(for: $height, oldValue: oldValue, newValue: newValue)
                         measurementErrorMessage(measureValue: height, measureTool: "height")
                     }
             }.padding(.vertical, 20)
             
-            // Display Text Area
+            // Display Text Are
             Spacer()
             displayResult.padding()
             Button("Calculate Cost"){
@@ -269,7 +269,7 @@ struct ContentView: View {
 
    
     // Function to manually control numberic digits only
-    private func funfilterNumbericInput(for binding: Binding<String>, oldValue:String, newValue:String){
+    private func funcfilterNumbericInput(for binding: Binding<String>, oldValue:String, newValue:String){
         var filtered = newValue.filter{"0123456789.".contains($0)}
         if filtered.filter({$0 == "."}).count > 1 {
             filtered = oldValue
