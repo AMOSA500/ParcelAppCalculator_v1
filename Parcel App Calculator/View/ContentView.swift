@@ -14,7 +14,7 @@ struct ContentView: View {
     @AppStorage("length") private var length = ""
     @AppStorage("width") private var width = ""
     @AppStorage("height") private var height = ""
-    @AppStorage("resultMessage") private var resultMessage = "Package cost = £0"
+    var resultMessage = "Package cost = £0"
     @AppStorage("postDate") private var postDate: Date = Date()
     @State private var isError = false
     @State private var useAdvancedPricing = false
