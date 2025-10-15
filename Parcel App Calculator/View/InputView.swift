@@ -10,9 +10,10 @@ import SwiftUI
 
 struct InputView: View{
     @Binding var value: String
+    @Binding var resultMessage: String
     let label: String
     let useAdvancedPricing: Bool
-    var isError: Bool
+    @State var isError: Bool
     
     var body: some View{
         HStack(alignment: .center, spacing: 20){
@@ -30,7 +31,7 @@ struct InputView: View{
                 .onChange(of: value){
                     oldValue, newValue in
                     funcfilterNumbericInput(for: $value, oldValue: oldValue, newValue: newValue)
-                    measurementErrorMessage(measureValue: value, measureTool: "label")
+                    measurementErrorMessage(measureValue: value, measureTool: label)
                     
                     
                 }
