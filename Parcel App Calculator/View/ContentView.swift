@@ -79,99 +79,19 @@ struct ContentView: View {
             
             
             // Stact for weight
-            HStack(alignment: .center, spacing: 20){
-                Label("Weight (Kg): ", systemImage: "scale.3d")
-                    .labelStyle(.titleOnly)
-                    .frame(width: 70, alignment: .leading)
-                    .fixedSize(horizontal: false, vertical: true)
-                TextField("0", text: $weight)
-                    .bold()
-                    .font(.largeTitle)
-                    .padding(.horizontal, 15)
-                    .cornerRadius(8)
-                    .background(Color.gray.opacity(0.2))
-                    .keyboardType(.decimalPad)
-                    .onChange(of: weight){
-                        oldValue, newValue in
-                        funcfilterNumbericInput(for: $weight, oldValue: oldValue, newValue: newValue)
-                        if useAdvancedPricing{
-                            if let weightValue = Double(weight),
-                               weightValue > 30.0{
-                                resultMessage = "Max weight: 30Kg"
-                                isError = true;
-                            }else{
-                                resultMessage = "Package cost = £0"
-                                isError = false
-                            }
-                        }
-                        
-                    }
-            }.padding(.vertical, 20)
+            InputView(value: $weight, resultMessage: $resultMessage, label: "Weight (Kg): ", useAdvancedPricing: $useAdvancedPricing, isError: $isError)
             
             // State for length
-            HStack(alignment: .center, spacing: 20){
-                Label("Length (cm): ", systemImage: "ruler")
-                    .labelStyle(.titleOnly)
-                    .frame(width: 70, alignment: .leading)
-                    .fixedSize(horizontal: false, vertical: true)
+            InputView(value: $length, resultMessage: $resultMessage, label: "Length (cm): ", useAdvancedPricing: $useAdvancedPricing, isError: $isError)
 
-                TextField("0", text: $length)
-                    .bold()
-                    .font(.largeTitle)
-                    .padding(.horizontal, 15)
-                    .cornerRadius(8)
-                    .background(Color.gray.opacity(0.2))
-                    .keyboardType(.decimalPad)
-                    .onChange(of: length){
-                        oldValue, newValue in
-                        funcfilterNumbericInput(for: $length, oldValue: oldValue, newValue: newValue)
-                        measurementErrorMessage(measureValue: length, measureTool: "length")
-                        
-                    }
-            }.padding(.vertical, 20)
             
             // Stact for Width
-            HStack(alignment: .center, spacing: 20){
-                Label("Width (cm): ", systemImage: "scalemass")
-                    .labelStyle(.titleOnly)
-                    .frame(width: 70, alignment: .leading)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                TextField("0", text: $width)
-                    .bold()
-                    .font(.largeTitle)
-                    .padding(.horizontal, 15)
-                    .cornerRadius(8)
-                    .background(Color.gray.opacity(0.2))
-                    .keyboardType(.decimalPad)
-                    .onChange(of: width){
-                        oldValue, newValue in
-                        funcfilterNumbericInput(for: $width, oldValue: oldValue, newValue: newValue)
-                        measurementErrorMessage(measureValue: width, measureTool: "width")
-                    }
-            }.padding(.vertical, 20)
             
+            
+            InputView(value: $width, resultMessage: $resultMessage, label: "Width (cm): ", useAdvancedPricing: $useAdvancedPricing, isError: $isError)
             // Stack for Height
-            HStack(alignment: .center, spacing: 20){
-                Label("Height (cm): ", systemImage: "ruler")
-                    .labelStyle(.titleOnly)
-                    .frame(width: 70, alignment: .leading)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                TextField("0", text: $height)
-                    .bold()
-                    .font(.largeTitle)
-                    .padding(.horizontal, 15)
-                    .cornerRadius(8)
-                    .background(Color.gray.opacity(0.2))
-                    .keyboardType(.decimalPad)
-                    .onChange(of: height){
-                        oldValue, newValue in
-                        funcfilterNumbericInput(for: $height, oldValue: oldValue, newValue: newValue)
-                        measurementErrorMessage(measureValue: height, measureTool: "height")
-                    }
-            }.padding(.vertical, 20)
             
+            InputView(value: $height, resultMessage: $resultMessage, label: "Height (cm): ", useAdvancedPricing: $useAdvancedPricing, isError: $isError)
             // Display Text Are
             Spacer()
             displayResult.padding()

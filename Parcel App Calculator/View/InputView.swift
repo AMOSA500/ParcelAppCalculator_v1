@@ -12,8 +12,8 @@ struct InputView: View{
     @Binding var value: String
     @Binding var resultMessage: String
     let label: String
-    let useAdvancedPricing: Bool
-    @State var isError: Bool
+    @Binding var useAdvancedPricing: Bool
+    @Binding var isError: Bool
     
     var body: some View{
         HStack(alignment: .center, spacing: 20){
