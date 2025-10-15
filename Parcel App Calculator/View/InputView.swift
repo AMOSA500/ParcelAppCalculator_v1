@@ -48,6 +48,7 @@ struct InputView: View{
         if filtered != newValue{
             binding.wrappedValue = filtered
         }
+        // TODO: Remove leading zero
         
     }
     
@@ -56,13 +57,25 @@ struct InputView: View{
     // Function for over scaling measurement error
     private func measurementErrorMessage(measureValue: String, measureTool: String){
         if useAdvancedPricing{
-            if let lengthValue = Double(measureValue), lengthValue > 150.0{
-                resultMessage = "Max \(measureTool) Dimension: 150cm"
-                isError = true;
+            if measureTool == "weight"{
+                if let weightValue = Double(measureValue),
+                   weightValue > 30.0{
+                    resultMessage = "Max weight: 30Kg"
+                    isError = true;
+                }else{
+                    resultMessage = "Package cost = £0"
+                    isError = false
+                }
             }else{
-                resultMessage = "Package cost = £0"
-                isError = false
+                if let lengthValue = Double(measureValue), lengthValue > 150.0{
+                    resultMessage = "Max \(measureTool) Dimension: 150cm"
+                    isError = true;
+                }else{
+                    resultMessage = "Package cost = £0"
+                    isError = false
+                }
             }
+            
         }
     }
     
