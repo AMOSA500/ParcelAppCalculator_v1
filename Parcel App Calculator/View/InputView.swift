@@ -11,13 +11,13 @@ import SwiftUI
 struct InputView: View{
     @Binding var value: String
     @Binding var resultMessage: String
-    let label: String
+    var label: String
     @Binding var useAdvancedPricing: Bool
     @Binding var isError: Bool
     
     var body: some View{
         HStack(alignment: .center, spacing: 20){
-            Label(label, systemImage: "")
+            Label(label.lowercased() == "weight" ? label+" (Kg):":label+" (cm)", systemImage: "")
                 .labelStyle(.titleOnly)
                 .frame(width: 70, alignment: .leading)
                 .fixedSize(horizontal: false, vertical: true)
@@ -39,6 +39,8 @@ struct InputView: View{
         
     }
     
+    
+    
     // Function to manually control numberic digits only
     private func funcfilterNumbericInput(for binding: Binding<String>, oldValue:String, newValue:String){
         var filtered = newValue.filter{"0123456789.".contains($0)}
@@ -57,7 +59,7 @@ struct InputView: View{
     // Function for over scaling measurement error
     private func measurementErrorMessage(measureValue: String, measureTool: String){
         if useAdvancedPricing{
-            if measureTool == "weight"{
+            if measureTool.lowercased() == "weight"{
                 if let weightValue = Double(measureValue),
                    weightValue > 30.0{
                     resultMessage = "Max weight: 30Kg"

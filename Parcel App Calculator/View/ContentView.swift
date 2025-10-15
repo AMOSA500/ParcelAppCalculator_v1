@@ -79,19 +79,18 @@ struct ContentView: View {
             
             
             // Stact for weight
-            InputView(value: $weight, resultMessage: $resultMessage, label: "Weight (Kg): ", useAdvancedPricing: $useAdvancedPricing, isError: $isError)
+            InputView(value: $weight, resultMessage: $resultMessage, label: "Weight", useAdvancedPricing: $useAdvancedPricing, isError: $isError)
             
             // State for length
-            InputView(value: $length, resultMessage: $resultMessage, label: "Length (cm): ", useAdvancedPricing: $useAdvancedPricing, isError: $isError)
+            InputView(value: $length, resultMessage: $resultMessage, label: "Length", useAdvancedPricing: $useAdvancedPricing, isError: $isError)
 
             
             // Stact for Width
-            
-            
-            InputView(value: $width, resultMessage: $resultMessage, label: "Width (cm): ", useAdvancedPricing: $useAdvancedPricing, isError: $isError)
+            InputView(value: $width, resultMessage: $resultMessage, label: "Width", useAdvancedPricing: $useAdvancedPricing, isError: $isError)
             // Stack for Height
             
-            InputView(value: $height, resultMessage: $resultMessage, label: "Height (cm): ", useAdvancedPricing: $useAdvancedPricing, isError: $isError)
+            InputView(value: $height, resultMessage: $resultMessage, label: "Height", useAdvancedPricing: $useAdvancedPricing, isError: $isError)
+            
             // Display Text Are
             Spacer()
             displayResult.padding()
